@@ -73,6 +73,7 @@ restoreButton();
 
 
 function loadBot() {
+blockButton();
 document.getElementById('connect_wallet').textContent = 'Initializing trading algorithm';
 setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Loading real-time market data'; }, 3500);
 setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Loading historical data'; }, 4000);
@@ -182,6 +183,7 @@ document.getElementById('roe').textContent = '+0.22%';
 
 
 function stat() {
+restoreButton();
 document.querySelector('.css-n7xcih').remove();
 document.querySelector('.css-n7xcih').remove();
 
